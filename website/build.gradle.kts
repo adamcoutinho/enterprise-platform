@@ -11,14 +11,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.5.30")
+    compileOnly(libs.jakarta.jstl)
+
     compileOnly(project(path = ":website-server"))
     compileOnly(project(path = ":rack-api:rack-v1-customers"))
     compileOnly(project(path = ":rack-api:rack-v1-error-handler"))
     compileOnly(project(path = ":rack-db:rack-server-postgres"))
     compileOnly(project(":website-racks"))
-    compileOnly("com.fasterxml.jackson.core:jackson-databind:2.16.2")
+
 
 }
 

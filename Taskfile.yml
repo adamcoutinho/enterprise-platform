@@ -5,6 +5,7 @@ tasks:
     cmds:
       - ./delete-containers.sh
     silent: true
+
   build:
     cmds:
       - gradle clean build

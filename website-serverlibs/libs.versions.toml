@@ -7,7 +7,7 @@
 
 # Kotlin
 kotlin = "1.9.0"
-kotlin-stdlib = "1.9.0"
+#kotlin-stdlib = "1.9.0"
 
 # Spring Framework
 spring-framework = "6.1.5"

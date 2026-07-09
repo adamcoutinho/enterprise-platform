@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.22"
+  kotlin("plugin.spring") version "1.9.22"
 }
 
 group = "com.main.ep"
@@ -11,6 +12,7 @@ repositories {
 
 dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
+  implementation(kotlin("stdlib"))
 }
 
 tasks.test {

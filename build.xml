@@ -1,56 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="CopyJarsToWebInfLib" default="copy" basedir=".">
-<!--    CORE DOMAIN-->
-    <property name="core.dir" value="core/build/libs"/>
-<!--    DEFINE_PATH_LIB_JARS-->
-    <property name="website.serverlibs.dir" value="website-serverlibs"/>
-    <property name="website.server.dir" value="website-server/build/libs"/>
-<!--    RACK API-->
-    <property name="rack.api.v1.customers.dir" value="rack-api/rack-v1-customers/build/libs"/>
-    <property name="rack.api.v1.error.dir" value="rack-api/rack-v1-error-handler/build/libs"/>
+  <!--    CORE DOMAIN-->
+  <property name="core.dir" value="core/build/libs"/>
+  <!--    DEFINE_PATH_LIB_JARS WEB-INF-->
+  <property name="website.serverlibs.spring.dir" value="website-serverlibs/libs-spring"/>
+  <property name="website.serverlibs.webinf.dir" value="website-serverlibs/lib-web-inf"/>
+  <property name="website.server.dir" value="website-server/build/libs"/>
+  <!--    RACK API-->
+  <property name="rack.api.v1.customers.dir" value="rack-api/rack-v1-customers/build/libs"/>
+  <property name="rack.api.v1.error.dir" value="rack-api/rack-v1-error-handler/build/libs"/>
 
-<!--    RACK SERVER DB-->
-    <property name="rack.db.server.postgres.dir" value="rack-db/rack-server-postgres/build/libs"/>
-<!--RACK MODULES-->
-    <property name="rack.modules.dir" value="website-racks/build/libs"/>
-<!--    <property name="website.serverlibs.dir" value="website-serverlibs"/>-->
+  <!--    RACK SERVER DB-->
+  <property name="rack.db.server.postgres.dir" value="rack-db/rack-server-postgres/build/libs"/>
+  <!--RACK MODULES-->
+  <property name="rack.modules.dir" value="website-racks/build/libs"/>
 
-    <!-- DEFINE_PATH_WEBSITES_JSP-->
-    <property name="website.dir" value="website/src/main/webapp/WEB-INF/lib" />
+  <!-- DEFINE_PATH_WEBSITES_JSP-->
+  <property name="website.dir" value="website/src/main/webapp/WEB-INF/lib"/>
+  <!-- DEFINE_PATH_SITES_REACT_ANGULAR_VUE_SVELTE_SOLIDJS -->
+  <property name="sites.dir" value="website/src/main/webapp/static"/>
 
-    <!--    eraser libs jars -->
-    <target name="clean">
-        <echo message="erasing files jar"/>
-        <!-- Delete JAR files inside WEB-INF/lib -->
-<!--        <delete dir="${website.serverlibs.dir}" includes="**/*.jar"/>-->
-        <delete dir="${website.dir}" includes="**/*.jar"/>
-        <echo message="erasing files jar"/>
-    </target>
+  <!--    eraser libs jars -->
+  <target name="clean">
+    <echo message="erasing files jar"/>
+    <!-- Delete JAR files inside WEB-INF/lib -->
+    <delete dir="${website.serverlibs.spring.dir}" includes="**/*.jar"/>
+    <delete dir="${website.serverlibs.webinf.dir}" includes="**/*.jar"/>
+    <delete dir="${website.dir}" includes="**/*.jar"/>
+    <echo message="erasing files jar"/>
+  </target>
 
-    <target name="copy">
+  <target name="delete-web-inf-jar">
+    <echo message="erasing files jar"/>
+    <!-- Delete JAR files inside WEB-INF/lib -->
+    <delete dir="${website.dir}" includes="**/*.jar"/>
 
-        <echo message="Copying JAR website-serverlibs files to website/src/main/webapp/WEB-INF/libs"/>
-        <!-- Ensure the WEB-INF/lib directory exists -->
-<!--        <mkdir dir="${website.dir}"/>-->
+    <echo message="Eraser All files Jars WEB-INF/lib "/>
+  </target>
 
-        <!-- Copy JAR files -->
-        <copy todir="${website.dir}">
+  <target name="copy" depends="delete-web-inf-jar">
 
-            <fileset dir="${core.dir}" includes="**/*.jar"/>
-            <fileset dir="${rack.api.v1.error.dir}" includes="**/*.jar"/>
-
-            <fileset dir="${website.serverlibs.dir}" includes="**/*.jar"/>
-            <fileset dir="${website.server.dir}" includes="**/*.jar"/>
-            <fileset dir="${rack.api.v1.customers.dir}" includes="**/*.jar"/>
-            <fileset dir="${rack.db.server.postgres.dir}" includes="**/*.jar"/>
-            <fileset dir="${rack.modules.dir}" includes="**/*.jar"/>
-
-        </copy>
-
-        <echo message="JAR files copied successfully!" />
-    </target>
+    <echo message="Copying JAR website-serverlibs files to website/src/main/webapp/WEB-INF/libs"/>
 
 
+    <!-- Copy JAR files -->
+    <copy todir="${website.dir}">
+      <fileset dir="${core.dir}" includes="**/*.jar"/>
+      <fileset dir="${rack.api.v1.error.dir}" includes="**/*.jar"/>
+      <fileset dir="${website.server.dir}" includes="**/*.jar"/>
+      <fileset dir="${rack.api.v1.customers.dir}" includes="**/*.jar"/>
+      <fileset dir="${rack.db.server.postgres.dir}" includes="**/*.jar"/>
+      <fileset dir="${rack.modules.dir}" includes="**/*.jar"/>
+    </copy>
+    <copy todir="${website.dir}">
+      <fileset dir="${website.serverlibs.spring.dir}" includes="**/*.jar"/>
+      <fileset dir="${website.serverlibs.webinf.dir}" includes="**/*.jar"/>
+    </copy>
+    <echo message="JAR files copied successfully!"/>
+    <!-- Copy Sites folders -->
+<!--    <copy todir="${sites.dir}">-->
+<!--      <fileset dir="sites/www/www"/>-->
+<!--    </copy>-->
+    <echo message="websites files copied successfully!"/>
+  </target>
 
+  <description>
+    Ant Build para automatizar a execução dos scripts shell de download de dependências.
+  </description>
+  <echo message="================${basedir}===================================="/>
+  <!-- Target 1: Executa o script que baixa para a pasta libs-spring -->
+  <target name="down-spring" description="Executa o script de download para libs-spring">
+    <echo message="===================================================="/>
+    <echo message="Iniciando script: libs-spring                       "/>
+    <echo message="===================================================="/>
 
+    <!-- No Linux/Mac chamamos o 'bash' e passamos o script como argumento -->
+    <exec executable="bash" dir="${basedir}" failonerror="true">
+      <arg value="${basedir}/website-serverlibs/dow-dep-spring.sh"/>
+    </exec>
+  </target>
+
+  <!-- Target 2: Executa o script que baixa para a pasta lib-web-inf -->
+  <target name="down-web-inf" description="Executa o script de download para lib-web-inf">
+    <echo message="===================================================="/>
+    <echo message="Iniciando script: lib-web-inf                       "/>
+    <echo message="===================================================="/>
+
+    <exec executable="bash" dir="${basedir}" failonerror="true">
+      <arg value="website-serverlibs/dow-dep-web-inf.sh"/>
+    </exec>
+  </target>
+
+  <target name="executar-todos"
+          depends="down-spring, down-web-inf, copy"
+          description="Executa ambos os scripts de download sequencialmente">
+    <echo message="===================================================="/>
+    <echo message="Todos os downloads foram processados pelo Ant!      "/>
+    <echo message="===================================================="/>
+  </target>
 </project>

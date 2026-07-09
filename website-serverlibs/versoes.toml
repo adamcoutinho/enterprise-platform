@@ -1,0 +1,45 @@
+# ==============================================================================
+# CONFIGURAÇÃO DE VERSÕES DAS DEPENDÊNCIAS (TOML)
+# ==============================================================================
+
+[postgres]
+V_POSTGRES = "42.7.3"
+
+[hibernate]
+V_HIBERNATE_CORE = "6.4.4.Final"
+V_HIBERNATE_COMMONS = "6.0.6.Final"
+V_HIBERNATE_VALIDATOR = "8.0.1.Final"
+V_LOGGING = "3.5.3.Final"
+V_CLASSMATE = "1.7.0"
+V_JANDEX = "3.1.7"
+V_BYTE_BUDDY = "1.14.12"
+V_ANTLR = "4.13.1"
+
+[jackson]
+V_JACKSON = "2.17.0"
+
+#[kotlin]
+V_KOTLIN = "1.9.0"
+#V_KOTLIN_STDLIB = "1.9.0"
+
+[jakarta_servlet]
+V_JSTL_API = "3.0.0"
+V_JSTL_IMPL = "3.0.1"
+V_SERVLET_API = "6.0.0"
+V_JSP_API = "3.1.1"
+V_JAKARTAEE = "10.0.0"
+V_TRANSACTION = "2.0.1"
+
+[utils]
+V_LANG3 = "3.14.0"
+V_COMMONS_LOGGING = "1.3.0"
+
+#[spring]
+V_SPRING = "6.1.5"
+#V_SPRING_BATCH = "5.1.0"
+V_SPRING_DATA = "3.2.4"
+
+[micrometer]
+V_YASSON = "3.0.3"
+V_PARSSON = "1.1.5"
+V_MICROMETER = "1.12.2"

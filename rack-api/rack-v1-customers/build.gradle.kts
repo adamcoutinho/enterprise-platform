@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.22"
+    kotlin("plugin.spring")
 }
 
 //group = "com.main.ep.rack.v1.customers"
@@ -19,6 +20,7 @@ dependencies {
     implementation(libs.micrometer.core)
     implementation(libs.micrometer.commons)
     implementation(libs.jakarta.validation.api)
+    implementation(kotlin("stdlib"))
 }
 
 tasks.test {
