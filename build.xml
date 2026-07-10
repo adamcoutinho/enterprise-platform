@@ -58,9 +58,9 @@
     </copy>
     <echo message="JAR files copied successfully!"/>
     <!-- Copy Sites folders -->
-<!--    <copy todir="${sites.dir}">-->
-<!--      <fileset dir="sites/www/www"/>-->
-<!--    </copy>-->
+    <copy todir="${sites.dir}">
+      <fileset dir="sites/website/www"/>
+    </copy>
     <echo message="websites files copied successfully!"/>
   </target>
 

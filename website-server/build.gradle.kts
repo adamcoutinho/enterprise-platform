@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.main.ep.website.server"
-version = "1.0-SNAPSHOT"
+version = ""
 
 repositories {
     mavenCentral()

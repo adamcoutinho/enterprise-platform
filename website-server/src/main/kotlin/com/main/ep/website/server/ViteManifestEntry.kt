@@ -9,6 +9,8 @@ data class ViteManifestEntry(
 
   val name: String? = null,
 
+  val css: List<String>?=null,
+
   val src: String? = null,
 
   val isEntry: Boolean? = null,

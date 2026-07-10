@@ -41,13 +41,13 @@ echo "Configuring Vite..."
 cat <<EOF > vite.config.ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { TanStackRouterVite } from '@tanstack/router-vite-plugin'
+import { tanstackRouter } from '@tanstack/router-vite-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    TanStackRouterVite(),
+    tanstackRouter(),
   ],
 })
 EOF
@@ -68,6 +68,8 @@ cat <<EOF > src/routeTree.gen.ts
 import { Route as rootRouteImport } from './routes/__root'
 
 const IndexLazyImport = { update: (config: any) => config }
+const EnvLazyImport = { update: (config: any) => config }
+const LoginLazyImport = { update: (config: any) => config }
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
@@ -75,7 +77,19 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-export const routeTree = rootRouteImport.addChildren([IndexLazyRoute])
+const EnvLazyRoute = EnvLazyImport.update({
+  id: '/env',
+  path: '/env',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/env.lazy').then((d) => d.Route))
+
+const LoginLazyRoute = LoginLazyImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
+
+export const routeTree = rootRouteImport.addChildren([IndexLazyRoute, EnvLazyRoute, LoginLazyRoute])
 EOF
 
 # Create .env files
@@ -110,12 +124,25 @@ body {
 EOF
 
 cat <<'EOF' > src/routes/__root.tsx
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 export const Route = createRootRoute({
   component: () => (
     <>
+      <nav style={{ 
+        padding: '1rem', 
+        borderBottom: '1px solid #ccc',
+        display: 'flex',
+        gap: '1rem',
+        backgroundColor: 'var(--background)',
+        color: 'var(--foreground)'
+      }}>
+        <Link to="/" style={{ fontWeight: 'bold' }}>Home</Link>
+        <Link to="/env">Environment</Link>
+        <Link to="/login">Login</Link>
+      </nav>
+      <hr />
       <Outlet />
       <TanStackRouterDevtools />
     </>
@@ -132,14 +159,49 @@ export const Route = createLazyFileRoute('/')({
 })
 
 function Index() {
-  const apiUrl = import.meta.env.VITE_API_URL
   const appName = import.meta.env.VITE_APP_NAME
 
   return (
     <div style={{ padding: '1rem' }}>
       <h3>Welcome to {appName}!</h3>
-      <p>API URL: {apiUrl}</p>
-      <p>This application is running without an index.html file, using __root.tsx as the entry point.</p>
+      <p>This application is running with a centralized navigation bar.</p>
+    </div>
+  )
+}
+EOF
+
+cat <<EOF > src/routes/env.lazy.tsx
+// @ts-nocheck
+import { createLazyFileRoute } from '@tanstack/react-router'
+
+export const Route = createLazyFileRoute('/env')({
+  component: EnvPage,
+})
+
+function EnvPage() {
+  const envVars = import.meta.env
+
+  return (
+    <div style={{ padding: '1rem' }}>
+      <h3>Environment Variables</h3>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>
+            <th style={{ padding: '0.5rem' }}>Variable</th>
+            <th style={{ padding: '0.5rem' }}>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(envVars)
+            .filter(([key]) => key.startsWith('VITE_'))
+            .map(([key, value]) => (
+              <tr key={key} style={{ borderBottom: '1px solid #eee' }}>
+                <td style={{ padding: '0.5rem', fontWeight: '500' }}>{key}</td>
+                <td style={{ padding: '0.5rem' }}>{String(value)}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </div>
   )
 }

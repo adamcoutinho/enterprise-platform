@@ -12,11 +12,16 @@
            http://www.springframework.org/schema/task/spring-task.xsd">
 
 
+<!--<mvc:view-controller path="/" />-->
 
 
+  <!-- 4. Recursos estáticos SEM clonar a rota raiz (mude /static/ se a pasta do Vite tiver outro nome) -->
+  <mvc:resources mapping="/static/**" location="/static/" cache-period="0" />
+  <!-- disable cache-->
+<!--  <mvc:resources mapping="/**" cache-period="0" location="/"/>-->
+  <!-- Converter JSON para as respostas da API se necessário -->
+  <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
- <import resource="dispatcher-api.xml" />
-
-
+  <import resource="dispatcher-database.xml" />
 
 </beans>

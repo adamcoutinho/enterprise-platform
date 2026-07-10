@@ -10,14 +10,22 @@
            https://www.springframework.org/schema/context/spring-context.xsd
            http://www.springframework.org/schema/task
            http://www.springframework.org/schema/task/spring-task.xsd">
+  <mvc:resources mapping="/**" cache-period="0" location="/"/>
+  <!-- 3. Mapeamento correto de Views (JSP protegido) -->
+  <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/spa-pages/"/>
+    <property name="suffix" value=".jsp"/>
+  </bean>
+  <!-- 1. Escaneia os pacotes primeiro para achar seu WebSiteController -->
+  <context:component-scan base-package="com.main.ep.website.server"/>
+  <context:annotation-config/>
 
+  <!-- 2. Ativa o MVC para processar as rotas da controller -->
+  <mvc:annotation-driven/>
+  <mvc:default-servlet-handler/>
 
-    <!-- Define your view resolver and other MVC configurations here -->
-    <!-- beans components-->
-    <!--    <bean id="userAgent" class="com.main.ep.v1.authentic.UserAgent"/>-->
     <context:component-scan base-package="com.main.ep.rack.v1.customers"/>
     <context:component-scan base-package="com.main.ep.rack.v1.error.handler"/>
-    <context:component-scan base-package="com.main.ep.website.server"/>
 
 <!--    <mvc:interceptors>-->
 <!--        <mvc:interceptor>-->
@@ -25,11 +33,8 @@
 <!--            <bean class="com.main.ep.website.server.interceptor.MyCustomInterceptor"/>-->
 <!--        </mvc:interceptor>-->
 <!--    </mvc:interceptors>-->
-    <mvc:resources mapping="/static/**" location="/static/" />
-    <mvc:resources mapping="/develophub/**" location="/static/site-develophub/" />
-    <mvc:resources mapping="/*.js" location="/static/site-develophub/" />
-    <mvc:resources mapping="/*.css" location="/static/site-develophub/" />
-<!--    -->
-<!--    <mvc:resources mapping="/*.js" location="/static/site-develophub/" />-->
+
+
+
 
 </beans>

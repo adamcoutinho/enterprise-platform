@@ -17,18 +17,18 @@ class ViteManifestService(
 ) {
   @PostConstruct
   fun init(){
-    println("test")
+    println("init service ViteManifestService")
   }
 
     private lateinit var manifest: Map<String, ViteManifestEntry>
 
-    fun load() {
+    fun load(): Map<String, ViteManifestEntry> {
       val resource = ServletContextResource(
         servletContext,
         "/static/.vite/manifest.json"
       )
 
-        manifest = loadManifest(resource.inputStream)
+        return loadManifest(resource.inputStream)
 
     }
 

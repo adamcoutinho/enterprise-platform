@@ -12,7 +12,6 @@ repositories {
 
 dependencies {
     compileOnly(libs.jakarta.jstl)
-
     compileOnly(project(path = ":website-server"))
     compileOnly(project(path = ":rack-api:rack-v1-customers"))
     compileOnly(project(path = ":rack-api:rack-v1-error-handler"))
